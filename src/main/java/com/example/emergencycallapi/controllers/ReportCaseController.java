@@ -58,6 +58,35 @@ public class ReportCaseController {
         cases.add(newCase);
     }
 
+    @PutMapping("/{id}")
+    public void updateReportCase(@PathVariable long id, @RequestBody ReportCase updatedCase) {
+        ReportCase reportCase = null;
+
+        for (ReportCase rpt : cases) {
+            if (rpt.getId() == id) {
+                reportCase = rpt;
+                break;
+            }
+        }
+
+        if (reportCase == null) {
+            throw new RuntimeException("Report case with id not found! -> " + id);
+        }
+
+        reportCase.setDescription(updatedCase.getDescription());
+        reportCase.setCaseType(updatedCase.getCaseType());
+        reportCase.setDate(updatedCase.getDate());
+        reportCase.setAddress(updatedCase.getAddress());
+        reportCase.setReporter(updatedCase.getReporter());
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteReportCase(@PathVariable long id) {
+        cases.removeIf(rpt -> rpt.getId() == id);
+    }
+
+
+
 
 }
 
