@@ -23,6 +23,16 @@ public class ReportCaseServiceImpl implements ReportCaseService {
             rpt1.setDescription("Qysh kesh tu shiku ne telefon, pahiri ndodhi aksidenti, veq kur krisi");
             rpt1.setAddress("Te Cacttus Education - te perpjeteza");
             cases.add(rpt1);
+
+            ReportCase rpt2 = new ReportCase();
+            rpt2.setReporter("Erblini");
+            rpt2.setCaseType("Spom bon CORS");
+            rpt2.setId(2);
+            rpt2.setDate(LocalDateTime.now());
+            rpt2.setDescription("Spom lejon me thirr prej frontend ne springboot");
+            rpt2.setAddress("Klasa e kuqe");
+            cases.add(rpt2);
+
         }
     }
 
