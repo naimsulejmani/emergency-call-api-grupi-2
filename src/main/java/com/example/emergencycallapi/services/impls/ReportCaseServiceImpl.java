@@ -78,7 +78,7 @@ public class ReportCaseServiceImpl implements ReportCaseService {
             if (rptCase.getId() == id)
                 return rptCase;
         }
-        return null;
+        throw new RuntimeException("Report Case not found!");
     }
 
     @Override
