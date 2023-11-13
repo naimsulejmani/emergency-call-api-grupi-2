@@ -1,88 +1,70 @@
 package com.example.emergencycallapi.services.impls;
 
-import com.example.emergencycallapi.models.ReportCase;
+import com.example.emergencycallapi.mappers.ReportCaseMapper;
+import com.example.emergencycallapi.models.ReportCaseDto;
+import com.example.emergencycallapi.repositories.ReportCaseRepository;
 import com.example.emergencycallapi.services.ReportCaseService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ReportCaseServiceImpl implements ReportCaseService {
-    private static List<ReportCase> cases;
 
-    public ReportCaseServiceImpl() {
-        if (cases == null) {
-            cases = new ArrayList<>();
-            ReportCase rpt1 = new ReportCase();
-            rpt1.setReporter("Edip Mripa");
-            rpt1.setCaseType("Aksident me veture");
-            rpt1.setId(1);
-            rpt1.setDate(LocalDateTime.now());
-            rpt1.setDescription("Qysh kesh tu shiku ne telefon, pahiri ndodhi aksidenti, veq kur krisi");
-            rpt1.setAddress("Te Cacttus Education - te perpjeteza");
-            cases.add(rpt1);
+    private final ReportCaseRepository repository;
+    private final ReportCaseMapper reportCaseMapper;
 
-            ReportCase rpt2 = new ReportCase();
-            rpt2.setReporter("Erblini");
-            rpt2.setCaseType("Spom bon CORS");
-            rpt2.setId(2);
-            rpt2.setDate(LocalDateTime.now());
-            rpt2.setDescription("Spom lejon me thirr prej frontend ne springboot");
-            rpt2.setAddress("Klasa e kuqe");
-            cases.add(rpt2);
-
-        }
+    public ReportCaseServiceImpl(ReportCaseRepository repository, ReportCaseMapper reportCaseMapper) {
+        this.repository = repository;
+        this.reportCaseMapper = reportCaseMapper;
     }
 
     @Override
-    public void add(ReportCase rptCase) {
-        rptCase.setId((long) (Math.random() * 1_000_000_000));
-        cases.add(rptCase);
+    public void add(ReportCaseDto rptCase) {
+        var entity = reportCaseMapper.toEntity(rptCase); // kthe modelin e dto-se ne model te databazes (entitet)
+        repository.save(entity);
     }
 
     @Override
-    public void modify(long id, ReportCase updatedRptCase) {
-        ReportCase reportCase = null;
+    public void modify(long id, ReportCaseDto updatedRptCase) {
+        var optionalEntity = repository.findById(id);
+        if (optionalEntity.isEmpty())
+            throw new RuntimeException("Report case not found");
 
-        for (ReportCase rpt : cases) {
-            if (rpt.getId() == id) {
-                reportCase = rpt;
-                break;
-            }
-        }
+        var entity = optionalEntity.get();
+        entity.setCaseType(updatedRptCase.getCaseType());
+        entity.setDescription(updatedRptCase.getDescription());
+        entity.setReporter(updatedRptCase.getReporter());
+        entity.setDate(updatedRptCase.getDate());
+        entity.setAddress(updatedRptCase.getAddress());
 
-        if (reportCase == null) {
-            throw new RuntimeException("Report case with id not found! -> " + id);
-        }
-
-        reportCase.setDescription(updatedRptCase.getDescription());
-        reportCase.setCaseType(updatedRptCase.getCaseType());
-        reportCase.setDate(updatedRptCase.getDate());
-        reportCase.setAddress(updatedRptCase.getAddress());
-        reportCase.setReporter(updatedRptCase.getReporter());
+        repository.save(entity);
     }
 
     @Override
     public void removeById(long id) {
-        cases.removeIf(rpt -> rpt.getId() == id);
+        repository.deleteById(id);
     }
 
     @Override
-    public ReportCase findById(long id) {
-        /*
-            SELECT * FROM reportCases WHERE id = {id};
-         */
-        for (ReportCase rptCase : cases) {
-            if (rptCase.getId() == id)
-                return rptCase;
-        }
-        throw new RuntimeException("Report Case not found!");
+    public ReportCaseDto findById(long id) {
+        var entity = repository.findById(id);
+        if (entity.isEmpty())
+            throw new RuntimeException("Report case not found");
+        var dto = reportCaseMapper.toDto(entity.get());
+        return dto;
     }
 
     @Override
-    public List<ReportCase> findAll() {
-        return cases;
+    public List<ReportCaseDto> findAll() {
+//        var reportCases = repository.findAll();
+//        var list = new ArrayList<ReportCaseDto>();
+//
+//        for (var rpt : reportCases) {
+//            list.add(reportCaseMapper.toDto(rpt));
+//        }
+
+        return repository.findAll().stream().map(reportCaseMapper::toDto).toList();
     }
 }

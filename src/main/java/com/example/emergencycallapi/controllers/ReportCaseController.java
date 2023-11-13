@@ -1,6 +1,6 @@
 package com.example.emergencycallapi.controllers;
 
-import com.example.emergencycallapi.models.ReportCase;
+import com.example.emergencycallapi.models.ReportCaseDto;
 import com.example.emergencycallapi.services.ReportCaseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,22 +17,22 @@ public class ReportCaseController {
     }
 
     @GetMapping
-    public List<ReportCase> getAllReportCases() {
+    public List<ReportCaseDto> getAllReportCases() {
         return reportCaseService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ReportCase getById(@PathVariable long id) {
+    public ReportCaseDto getById(@PathVariable long id) {
         return reportCaseService.findById(id);
     }
 
     @PostMapping
-    public void addReportCase(@RequestBody ReportCase newCase) {
+    public void addReportCase(@RequestBody ReportCaseDto newCase) {
         reportCaseService.add(newCase);
     }
 
     @PutMapping("/{id}")
-    public void updateReportCase(@PathVariable long id, @RequestBody ReportCase updatedCase) {
+    public void updateReportCase(@PathVariable long id, @RequestBody ReportCaseDto updatedCase) {
         reportCaseService.modify(id, updatedCase);
     }
 

@@ -1,19 +1,19 @@
 package com.example.emergencycallapi.services;
 
-import com.example.emergencycallapi.models.ReportCase;
+import com.example.emergencycallapi.models.ReportCaseDto;
 
 import java.util.List;
 
 public interface ReportCaseService {
-    void add(ReportCase rptCase);
+    void add(ReportCaseDto rptCase);
 
-    void modify(long id, ReportCase updatedRptCase);
+    void modify(long id, ReportCaseDto updatedRptCase);
 
     void removeById(long id);
 
-    ReportCase findById(long id);
+    ReportCaseDto findById(long id);
 
-    List<ReportCase> findAll();
+    List<ReportCaseDto> findAll();
 }
 
 
