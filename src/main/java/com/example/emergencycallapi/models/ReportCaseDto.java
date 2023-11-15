@@ -14,4 +14,5 @@ public class ReportCaseDto {
     private String address;
     private String reporter;
     private LocalDateTime date;
+    private boolean active;
 }

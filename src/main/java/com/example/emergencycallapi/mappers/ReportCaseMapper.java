@@ -18,6 +18,7 @@ public class ReportCaseMapper {
         entity.setCaseType(dto.getCaseType());
         entity.setDescription(dto.getDescription());
         entity.setCreatedAt(LocalDateTime.now());
+        entity.setActive(dto.isActive());
         return entity;
     }
 
@@ -29,6 +30,7 @@ public class ReportCaseMapper {
         dto.setDescription(entity.getDescription());
         dto.setAddress(entity.getAddress());
         dto.setCaseType(entity.getCaseType());
+        dto.setActive(entity.isActive());
         return dto;
     }
 

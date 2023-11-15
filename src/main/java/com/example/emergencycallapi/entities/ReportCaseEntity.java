@@ -21,6 +21,8 @@ public class ReportCaseEntity {
     private String caseType;
     private String address;
     private String reporter;
+    @Column(nullable = true)
+    private boolean active;
     private LocalDateTime date;
     private LocalDateTime createdAt = LocalDateTime.now();
 
