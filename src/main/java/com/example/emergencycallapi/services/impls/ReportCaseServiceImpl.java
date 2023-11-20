@@ -2,8 +2,10 @@ package com.example.emergencycallapi.services.impls;
 
 import com.example.emergencycallapi.mappers.ReportCaseMapper;
 import com.example.emergencycallapi.models.ReportCaseDto;
+import com.example.emergencycallapi.models.ReportCaseStatusChangeDto;
 import com.example.emergencycallapi.repositories.ReportCaseRepository;
 import com.example.emergencycallapi.services.ReportCaseService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,4 +69,29 @@ public class ReportCaseServiceImpl implements ReportCaseService {
 
         return repository.findAll().stream().map(reportCaseMapper::toDto).toList();
     }
+
+    @Override
+    public void changeStatus(long id, ReportCaseStatusChangeDto statusChangeDto) {
+        var optionalEntity = repository.findById(id);
+        if (optionalEntity.isEmpty())
+            throw new EntityNotFoundException("Entity not found with id: " + id);
+        var entity = optionalEntity.get();
+        entity.setActive(statusChangeDto.isActive());
+        repository.save(entity);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

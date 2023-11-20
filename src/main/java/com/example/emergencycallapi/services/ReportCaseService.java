@@ -1,6 +1,7 @@
 package com.example.emergencycallapi.services;
 
 import com.example.emergencycallapi.models.ReportCaseDto;
+import com.example.emergencycallapi.models.ReportCaseStatusChangeDto;
 
 import java.util.List;
 
@@ -14,7 +15,11 @@ public interface ReportCaseService {
     ReportCaseDto findById(long id);
 
     List<ReportCaseDto> findAll();
+
+    void changeStatus(long id, ReportCaseStatusChangeDto statusChangeDto);
 }
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.emergencycallapi.controllers;
 
 import com.example.emergencycallapi.models.ReportCaseDto;
+import com.example.emergencycallapi.models.ReportCaseStatusChangeDto;
 import com.example.emergencycallapi.services.ReportCaseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,12 @@ public class ReportCaseController {
     @PutMapping("/{id}")
     public void updateReportCase(@PathVariable long id, @RequestBody ReportCaseDto updatedCase) {
         reportCaseService.modify(id, updatedCase);
+    }
+
+
+    @PatchMapping("/{id}")
+    public void changeReportStatus(@PathVariable long id, @RequestBody ReportCaseStatusChangeDto updatedCase) {
+        reportCaseService.changeStatus(id, updatedCase);
     }
 
     @DeleteMapping("/{id}")
