@@ -1,6 +1,8 @@
 package com.example.emergencycallapi.services.impls;
 
+import com.example.emergencycallapi.mappers.ReportCaseMapStructMapper;
 import com.example.emergencycallapi.mappers.ReportCaseMapper;
+import com.example.emergencycallapi.mappers.ReportCaseModelMapper;
 import com.example.emergencycallapi.models.ReportCaseDto;
 import com.example.emergencycallapi.models.ReportCaseStatusChangeDto;
 import com.example.emergencycallapi.repositories.ReportCaseRepository;
@@ -8,6 +10,7 @@ import com.example.emergencycallapi.services.ReportCaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +19,22 @@ public class ReportCaseServiceImpl implements ReportCaseService {
 
     private final ReportCaseRepository repository;
     private final ReportCaseMapper reportCaseMapper;
+    private final ReportCaseModelMapper modelMapper;
+    private final ReportCaseMapStructMapper mapStructMapper;
 
-    public ReportCaseServiceImpl(ReportCaseRepository repository, ReportCaseMapper reportCaseMapper) {
+    public ReportCaseServiceImpl(ReportCaseRepository repository, ReportCaseMapper reportCaseMapper,
+                                 ReportCaseModelMapper modelMapper, ReportCaseMapStructMapper mapStructMapper) {
         this.repository = repository;
         this.reportCaseMapper = reportCaseMapper;
+        this.modelMapper = modelMapper;
+        this.mapStructMapper = mapStructMapper;
     }
 
     @Override
     public void add(ReportCaseDto rptCase) {
-        var entity = reportCaseMapper.toEntity(rptCase); // kthe modelin e dto-se ne model te databazes (entitet)
+        // var entity = reportCaseMapper.toEntity(rptCase); // kthe modelin e dto-se ne model te databazes (entitet)
+        //var entity = modelMapper.toEntity(rptCase);
+        var entity = mapStructMapper.toEntity(rptCase);
         repository.save(entity);
     }
 
@@ -54,7 +64,9 @@ public class ReportCaseServiceImpl implements ReportCaseService {
         var entity = repository.findById(id);
         if (entity.isEmpty())
             throw new RuntimeException("Report case not found");
-        var dto = reportCaseMapper.toDto(entity.get());
+        // var dto = reportCaseMapper.toDto(entity.get());
+        //var dto = modelMapper.toDto(entity.get());
+        var dto = mapStructMapper.toDto(entity.get());
         return dto;
     }
 
@@ -67,7 +79,9 @@ public class ReportCaseServiceImpl implements ReportCaseService {
 //            list.add(reportCaseMapper.toDto(rpt));
 //        }
 
-        return repository.findAll().stream().map(reportCaseMapper::toDto).toList();
+        // return repository.findAll().stream().map(reportCaseMapper::toDto).toList();
+//        return repository.findAll().stream().map(modelMapper::toDto).toList();
+        return repository.findAll().stream().map(mapStructMapper::toDto).toList();
     }
 
     @Override

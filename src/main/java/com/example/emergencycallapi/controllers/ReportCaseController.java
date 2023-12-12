@@ -3,6 +3,7 @@ package com.example.emergencycallapi.controllers;
 import com.example.emergencycallapi.models.ReportCaseDto;
 import com.example.emergencycallapi.models.ReportCaseStatusChangeDto;
 import com.example.emergencycallapi.services.ReportCaseService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,8 @@ public class ReportCaseController {
     }
 
     @PostMapping
-    public void addReportCase(@RequestBody ReportCaseDto newCase) {
+    public void addReportCase(@Valid @RequestBody ReportCaseDto newCase) {
+
         reportCaseService.add(newCase);
     }
 
