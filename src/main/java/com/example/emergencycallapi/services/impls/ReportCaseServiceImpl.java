@@ -1,5 +1,6 @@
 package com.example.emergencycallapi.services.impls;
 
+import com.example.emergencycallapi.infrastructure.validatons.MonthValidation;
 import com.example.emergencycallapi.mappers.ReportCaseMapStructMapper;
 import com.example.emergencycallapi.mappers.ReportCaseMapper;
 import com.example.emergencycallapi.mappers.ReportCaseModelMapper;
@@ -9,6 +10,7 @@ import com.example.emergencycallapi.repositories.ReportCaseRepository;
 import com.example.emergencycallapi.services.ReportCaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -93,6 +95,7 @@ public class ReportCaseServiceImpl implements ReportCaseService {
         entity.setActive(statusChangeDto.isActive());
         repository.save(entity);
     }
+
 }
 
 
