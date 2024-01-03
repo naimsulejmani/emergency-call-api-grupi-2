@@ -52,7 +52,7 @@ public class ReportCaseServiceImpl implements ReportCaseService {
         entity.setReporter(updatedRptCase.getReporter());
         entity.setDate(updatedRptCase.getDate());
         entity.setAddress(updatedRptCase.getAddress());
-
+        entity.setActive(updatedRptCase.isActive());
         repository.save(entity);
     }
 

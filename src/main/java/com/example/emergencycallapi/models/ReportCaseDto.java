@@ -16,20 +16,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReportCaseDto {
 //    @Min(value = 0, message = "Vlera minimale duhet me qene >= 0")
-    @Min(value = 0, message = "Vlera minimale duhet me qene >= 0", groups = {OnPost.class, OnPut.class})
-       @Min(value = 10, message = "Vlera minimale duhet me qene >= 0",groups = OnPut.class)
+//    @Min(value = 0, message = "Vlera minimale duhet me qene >= 0", groups = {OnPost.class, OnPut.class})
+//    @Min(value = 10, message = "Vlera minimale duhet me qene >= 0",groups = OnPut.class)
     private long id;
     @NotBlank(message = "Nuk guxon me qene vlere empty ose blank")
     private String description;
 
-    @MonthValidation
-    private int month;
+//    @MonthValidation
+//    private int month;
     private String caseType;
     private String address;
     private String reporter;
 
-    @MinLocalDateTimeValidation(year = 2000, groups = OnPut.class)
-    @LessOrEqualToCurrentDate(groups = OnPut.class)
+//    @MinLocalDateTimeValidation(year = 2000, groups = OnPut.class)
+//    @LessOrEqualToCurrentDate(groups = OnPut.class)
     private LocalDateTime date;
 
     //    @MinLocalDateTimeValidation(year = 2020)
